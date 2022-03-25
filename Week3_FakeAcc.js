@@ -13,36 +13,40 @@ const randomAvatar = faker.image.avatar();           //generate fake avatar pict
 const randomBackground = faker.image.nature();       //generate background picture
 const password = "fakepassword";                     //password
 const saltRounds = 10;
+var encryptedpassword;
 
-client.connect(async err => {                       
+bcrypt.genSalt(saltRounds, function (saltError, salt) {   //encryption on password
+  if (saltError) {
+    throw saltError
+  } else {
+    bcrypt.hash(password, salt, function(hashError, hash) {     
+      if (hashError) {
+        throw hashError
+      } else {
+        encryptedpassword = hash;
+      }
+    })
+  }
+});
+
+client.connect(async err => {                             //connection to mongoDB   
   if (err) {
     console.log(err.message)                             
     return
   }
   console.log('\nGenerating fake account into mongoDB\n'); 
+  console.log("Fake Name: ", randomName, "\nFake Email: ", randomEmail,"\nFake Phone Number: ", randomPhoneNumber,"\nFake Address: ",randomAddress,"\nAvatar URL: ",randomAvatar,"\nBackground URL: ",randomBackground,"\nPassword: ",encryptedpassword,"\n"); //show data
   
-  bcrypt.genSalt(saltRounds, function (saltError, salt) { 
-    if (saltError) {
-      throw saltError
-    } else {
-      bcrypt.hash(password, salt, function(hashError, hash) {     //encrypt password
-        if (hashError) {
-          throw hashError
-        } 
-      console.log("Fake Name: ", randomName, "\nFake Email: ", randomEmail,"\nFake Phone Number: ", randomPhoneNumber,"\nFake Address: ",randomAddress,"\nAvatar URL: ",randomAvatar,"\nBackground URL: ",randomBackground,"\nPassword: ",hash,"\n"); //show data
-
-      client.db('fakeaccount').collection('sample').insertOne({   //insert the data into mongoDB
-        name: randomName,
-        email: randomEmail,
-        phone: randomPhoneNumber,
-        address: randomAddress,
-        avatar: randomAvatar,
-        background: randomBackground,
-        password: hash   
-      }).then(result => {
-          console.log(result);
-        });
-      })
-    }
+  client.db('fakeaccount').collection('sample').insertOne({   //insert the data into mongoDB
+    name: randomName,
+    email: randomEmail,
+    phone: randomPhoneNumber,
+    address: randomAddress,
+    avatar: randomAvatar,
+    background: randomBackground,
+    password: encryptedpassword   
+  }).then(result => {
+    console.log(result);
   });
+
 });
