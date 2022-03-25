@@ -8,7 +8,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 const randomName = faker.name.findName();            //generate fake name
 const randomEmail = faker.internet.email();          //generate fake email
 const randomPhoneNumber = faker.phone.phoneNumber(); //generate fake phone number
-
+const randomAddress = faker.address.city();          //generate fake address
+const randomAvatar = faker.image.avatar();           //generate fake avatar picture
+const randomBackground = faker.image.nature();       //generate background picture
 const password = "fakepassword";                     //password
 const saltRounds = 10;
 
@@ -26,14 +28,17 @@ client.connect(async err => {
       bcrypt.hash(password, salt, function(hashError, hash) {     //encrypt password
         if (hashError) {
           throw hashError
-        }
-      console.log("Fake Name: ", randomName, "\nFake Email: ", randomEmail,"\nFake Phone Number: ", randomPhoneNumber,"\nPassword: ",hash,"\n"); //show data
+        } 
+      console.log("Fake Name: ", randomName, "\nFake Email: ", randomEmail,"\nFake Phone Number: ", randomPhoneNumber,"\nFake Address: ",randomAddress,"\nAvatar URL: ",randomAvatar,"\nBackground URL: ",randomBackground,"\nPassword: ",hash,"\n"); //show data
 
       client.db('fakeaccount').collection('sample').insertOne({   //insert the data into mongoDB
         name: randomName,
         email: randomEmail,
         phone: randomPhoneNumber,
-        password: hash     
+        address: randomAddress,
+        avatar: randomAvatar,
+        background: randomBackground,
+        password: hash   
       }).then(result => {
           console.log(result);
         });
