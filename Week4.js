@@ -54,8 +54,6 @@ console.log('\nSuccessfully Connected To MongoDB!\n');  //Terminal successfully 
   //   console.log(result);                                         //Other logical operations = $or, $and ,$not : { $eq },$nor
   // });
 
-//////////////////////////////////////////////////////////////////////
-
   // let result = await client.db('myFirstDB').collection('profile').insertOne({       //insert some sample        
   //   name: 'Joe',
   //   like: 100
