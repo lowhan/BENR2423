@@ -7,7 +7,7 @@ client.connect(async err => {                             //dont forget to add a
     console.log(err.message)                              //Terminal will return an error message when the username or password is incorrect
     return
   }
-  console.log('\nSuccessfully Connected To MongoDB!\n');  //Terminal successfully connected to mongoDB and send this message
+console.log('\nSuccessfully Connected To MongoDB!\n');  //Terminal successfully connected to mongoDB and send this message
 
   // client.db('sample_training').collection('companies').find({     //Print the document that doesn't has a name of 'Google' in it
   //   name: {$ne: 'Google'}
