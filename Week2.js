@@ -2,7 +2,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://m001-student:m001-mongodb-basics@Sandbox.sgbbt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"; //connection, username, password, cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-client.connect(err => {                                   //connection
+client.connect(async err => {                                   //connection
   if (err) {
     console.log(err.message)                              //Terminal will return an error message when the username or password is incorrect
     return
@@ -17,9 +17,9 @@ client.connect(err => {                                   //connection
 //                                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  client.db().admin().listDatabases().then(result => {    //List all the info mainly are databases and other details
-    console.log(result);
-  })
+  // client.db().admin().listDatabases().then(result => {    //List all the info mainly are databases and other details
+  //   console.log(result);
+  // })
 
   // client.db().admin().listDatabases().then(result => {    //List content of "databases" 
   //     console.log(result['databases']);
@@ -61,8 +61,8 @@ client.connect(err => {                                   //connection
   //     console.log(result);
   // })
 
-  // client.db('sample_training').collection('trips').find({'start station name':'Howard St & Centre St','birth year':1961}).toArray().then(result => {   //Another example that Show the document under multiple conditions
-  //     console.log(result);
-  // })
+  await client.db('sample_training').collection('trips').find({'start station name':'Howard St & Centre St','birth year':1961}).toArray().then(result => {   //Another example that Show the document under multiple conditions
+      console.log(result);
+  })
 
 });
