@@ -25,7 +25,7 @@ class User {
 			}
 		});
 		// TODO: Check if username exists
-		return users.findOne({							//find the document
+		const user = await users.findOne({							//find the document
 			$and: [{ 
 				'username': username,				
 				'password': password
@@ -47,12 +47,13 @@ class User {
 				})
 				return "new user created";
 			}
-		})	
+		})
+		return user;	
 	}
 
 	static async login(username, password) {
 		// TODO: Check if username exists
-		return users.findOne({															//find the document
+		const user = await users.findOne({															//find the document
 			$or: [
 				{'username': username},				
 				{'password': password}
@@ -77,6 +78,7 @@ class User {
 				return "There is not such document";
 			}
 		})
+		return user;
 	}
 }
 module.exports = User;
