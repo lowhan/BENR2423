@@ -2,7 +2,7 @@ const MongoClient = require("mongodb").MongoClient;
 const User = require("./user")
 
 //sample data
-const username = "baduser"				//change name from 1 to 3													
+const username = "baduser"				//change name from 1 to 3	//user1 , passwordfromuser1	 											
 const password = "badpassword"
 
 describe("User Account Management", () => {
