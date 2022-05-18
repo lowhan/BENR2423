@@ -32,7 +32,7 @@ describe('Express Route Test', function () {
 		return request
 			.post('/login')
 			.send({username: "baduser", password: "badpassword"}) // username and password that doesn't exit
-			.expect(404)
+			.expect(400)
 			.expect('Content-Type', /text/)
 			.then(res => {
 				expect(res.text).toBe('login fail');
@@ -61,7 +61,7 @@ describe('Express Route Test', function () {
 	// 	return request
 	// 		.post('/register')
 	// 		.send({username: "newuser", password: "passwordfromnewuser"}) //req.body for register
-	// 		.expect(404)
+	// 		.expect(400)
 	// 		.expect('Content-Type', /text/)
 	// 		.then(res => {
 	// 			expect(res.text).toBe('register fail');

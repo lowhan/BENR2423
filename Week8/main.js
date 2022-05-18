@@ -40,7 +40,7 @@ app.post('/login', async (req, res) => {
 
 	if(user == "invalid username" || user == "invalid password" || user == "no such document")
 	{
-		return res.status(404).send("login fail")
+		return res.status(400).send("login fail")
 	}
 	else if(user)
 	{
@@ -65,7 +65,7 @@ app.post('/register', async (req, res) => {
 
 	if(user == "user exist")
 	{
-		return res.status(404).send("register fail")
+		return res.status(400).send("register fail")
 	}
 	else if(user == "new user created")
 	{
