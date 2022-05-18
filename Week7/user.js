@@ -4,6 +4,13 @@ const bcrypt = require("bcryptjs")
 const saltRounds = 10;
 var encrypt;
 
+// function checking(encrypted) {
+// 	bcrypt.compare(encrypted, encrypt, function(err, res) {
+// 		console.log(res)
+// 		return res
+// 	});
+// }
+
 class User {
 	static async injectDB(conn) {
 		users = await conn.db("TDDweek7").collection("users")		//users = db.collection.
@@ -13,17 +20,17 @@ class User {
 		// TODO: Hash password
 		bcrypt.genSalt(saltRounds, function (saltError, salt) { 
 			if (saltError) {
-			  	throw saltError
+		  		throw saltError
 			} else {
-			  	bcrypt.hash(password, salt, function(hashError, hash) {    //encrypt password
-					if (hashError) {
-				  		throw hashError
-					} else {
-						encrypt = hash;
-					}
-			  	})
-			}
-		});
+		  			bcrypt.hash(password, salt, function(hashError, hash) {    //encrypt password
+				if (hashError) {
+				  	throw hashError
+				} else {
+					encrypt = hash;
+				}
+		  	})
+		}
+	});
 		// TODO: Check if username exists
 		const user = await users.findOne({							//find the document
 			$and: [{ 
@@ -52,6 +59,7 @@ class User {
 	}
 
 	static async login(username, password) {
+		console.log(encrypt)
 		// TODO: Check if username exists
 		const user = await users.findOne({															//find the document
 			$or: [
@@ -61,10 +69,10 @@ class User {
 		}).then(async user =>{		
 		// TODO: Validate password ( or username )
 			if (user) {																	//if the username exists 
-				if ( user.username != username && user.password == password) {			//if the username is invalid
+				if ( user.username != username ) {			//if the username is invalid
 					return "invalid username";
 				}
-				else if ( user.username == username && user.password != password ) {	//else if the password is invalid
+				else if ( checking(user.encrypt) != true ) {	//else if the password is invalid
 					return "invalid password";
 				}
 				else																	//else username and password are valid
