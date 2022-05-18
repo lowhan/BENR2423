@@ -38,7 +38,7 @@ app.post('/login', async (req, res) => {
 	console.log('\nLogin user:', req.body); //check in console;
 	console.log('Login status:', user);
 
-	if(user == "invalid username" || user == "invalid password" || user == "no such document")
+	if(user == "invalid username" || user == "invalid password")
 	{
 		return res.status(400).send("login fail")
 	}

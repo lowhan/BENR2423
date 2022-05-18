@@ -60,15 +60,11 @@ class User {
 		return users.findOne({								
 				'username': username				
 		}).then(async user =>{
-			if (user) {
-				// Validate username
+			if (user) { // Validate username
+				
 				const PasswordValid = await bcrypt.compare(password, user.password)
-
-				if ( user.username != username ){
-					return "invalid username";
-				}
 				// TODO: Validate password 
-				else if ( PasswordValid == false) {
+				if ( PasswordValid == false) {
 					return "invalid password";
 				}
 				else
@@ -77,9 +73,9 @@ class User {
 					return user;
 				}
 			}
-			else
+			else // if user doesn't exists
 			{
-				return "no such document";
+				return "invalid username";
 			}
 		})
 	}

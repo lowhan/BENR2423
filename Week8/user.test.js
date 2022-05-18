@@ -29,15 +29,10 @@ describe("User Account Management", () => {
 	// 	expect(res).toBe("user exist");
 	// })
 
-	test("No such document exist", async () => {
+	test("User login invalid username", async () => {
 		const res = await User.login(username, password)
-		expect(res).toBe("no such document");
+		expect(res).toBe("invalid username");
 	})
-
-	// test("User login invalid username", async () => {
-	// 	const res = await User.login(username, password)
-	// 	expect(res).toBe("invalid username");
-	// })
 
 	// test("User login invalid password", async () => {
 	// 	const res = await User.login(username, password)
