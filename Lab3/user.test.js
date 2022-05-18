@@ -31,7 +31,7 @@ describe("User Account Management", () => {
 
 	test("User login invalid username", async () => {
 		const res = await User.login(username, password)
-		expect(res).toBe("invalid username"); 
+		expect(res).toBe("invalid username");
 	})
 
 	// test("User login invalid password", async () => {
