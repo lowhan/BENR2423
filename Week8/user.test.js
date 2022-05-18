@@ -2,8 +2,8 @@ const MongoClient = require("mongodb").MongoClient;
 const User = require("./user")
 
 //sample data
-const username = "user1"				//change name from 1 to 3													
-const password = "passwordfromuser1"
+const username = "baduser"				//change name from 1 to 3													
+const password = "badpassword"
 
 describe("User Account Management", () => {
 	let client;
@@ -24,15 +24,15 @@ describe("User Account Management", () => {
 	// 	expect(res).toBe("new user created");
 	// })
 
-	test("Duplicate username", async () => {
-		const res = await User.register(username, password)
-		expect(res).toBe("user exist");
-	})
-
-	// test("Found some Error", async () => {
-	// 	const res = await User.login(username, password)
-	// 	expect(res).toBe("Error detected");
+	// test("Duplicate username", async () => {
+	// 	const res = await User.register(username, password)
+	// 	expect(res).toBe("user exist");
 	// })
+
+	test("No such document exist", async () => {
+		const res = await User.login(username, password)
+		expect(res).toBe("no such document");
+	})
 
 	// test("User login invalid username", async () => {
 	// 	const res = await User.login(username, password)
@@ -44,10 +44,10 @@ describe("User Account Management", () => {
 	// 	expect(res).toBe("invalid password");
 	// })
 
-	test("User login successfully", async () => {
-		const res = await User.login(username, password)
-		expect(res.username).toBe(username);
-		expect(res.password).toEqual(expect.any(String)); //it already encrypt so... test can't expect it
-	})
+	// test("User login successfully", async () => {
+	// 	const res = await User.login(username, password)
+	// 	expect(res.username).toBe(username);
+	// 	expect(res.password).toEqual(expect.any(String)); //it already encrypt so... test can't expect it
+	// })
 
 });

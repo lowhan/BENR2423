@@ -79,7 +79,7 @@ class User {
 			}
 			else
 			{
-				return "Error detected";
+				return "no such document";
 			}
 		})
 	}

@@ -26,20 +26,29 @@ app.get('/', (req, res) => {
 })
 
 app.get('/test', (req, res) => {
-	res.send('subpage testing... you are good for now')
+	res.send('testing... you are good for now')
 })
 
 //do http://localhost:3000/login to login the user 
 
 app.post('/login', async (req, res) => {
-	console.log('\nLogin user:',req.body); //check in console
 
 	const user = await User.login(req.body.username, req.body.password);
 
-	res.status(200).json({
-		username: req.body.username,
-		password: req.body.password
-	})
+	console.log('\nLogin user:', req.body); //check in console;
+	console.log('Login status:', user);
+
+	if(user == "invalid username" || user == "invalid password" || user == "no such document")
+	{
+		return res.status(404).send("login fail")
+	}
+	else if(user)
+	{
+		return res.status(200).json({
+			username: req.body.username,
+			password: req.body.password
+		})
+	}
 })
 
 app.get('/login', async (req, res) => {
@@ -49,13 +58,22 @@ app.get('/login', async (req, res) => {
 //do http://localhost:3000/register to register the user 
 
 app.post('/register', async (req, res) => {
-	console.log('Register user:',req.body);
-	const user = await User.register(req.body.username, req.body.password);
+	var user = await User.register(req.body.username, req.body.password);
 
-	res.status(200).json({
+	console.log('\nRegister user:',req.body);
+	console.log('Registration status:', user);
+
+	if(user == "user exist")
+	{
+		return res.status(404).send("register fail")
+	}
+	else if(user == "new user created")
+	{
+		return res.status(200).json({
 			username: req.body.username,
 			password: req.body.password
-	})
+		})
+	}
 })
 
 app.get('/register', async (req, res) => {
