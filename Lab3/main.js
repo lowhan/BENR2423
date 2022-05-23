@@ -16,11 +16,12 @@ MongoClient.connect(
 //web application framework for node.js HTTP applications
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000    //for localhost: const port = 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
+//testing
 app.get('/', (req, res) => {
 	res.send('Welcome to OUR page !')
 })
@@ -29,8 +30,41 @@ app.get('/test', (req, res) => {
 	res.send('testing... you are good for now')
 })
 
-//do http://localhost:3000/login to login the user 
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+const options = {
+	definition: {
+		openapi:'3.0.0',
+		info: {
+			title:'MyVMS API',
+			version: '1.0.0',
+		},
+	},
+	apis: ['./main.js'], //files containing annotations as above
+};
+const swaggerSpec = swaggerJsdoc(options);
+console.log(swaggerSpec);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     description: User Login
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ */
+
+//do http://localhost:3000/login to login the user 
 app.post('/login', async (req, res) => {
 
 	const user = await User.login(req.body.username, req.body.password);
@@ -50,13 +84,13 @@ app.post('/login', async (req, res) => {
 		})
 	}
 })
-
 app.get('/login', async (req, res) => {
 	res.end('Login operation is done')		//end = json = send
 })
 
-//do http://localhost:3000/register to register the user 
 
+
+//do http://localhost:3000/register to register the user 
 app.post('/register', async (req, res) => {
 	var user = await User.register(req.body.username, req.body.password);
 
